@@ -38,3 +38,9 @@ $ source flask/bin/activate
 ```
 $ python run.py
 ```
+
++ 入口路由
+
+```
+127.0.0.1:5005/clab/uploading
+```
