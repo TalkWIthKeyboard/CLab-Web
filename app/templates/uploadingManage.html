@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>文件上传</title>
-    <link href="../static/clab-web/css/lib/bootstrap.min.css" rel="stylesheet">
-     <link href="http://cdn.bootcss.com/bootstrap-fileinput/4.3.4/css/fileinput.min.css" rel="stylesheet">
-
+    <link href="/clab-web/css/lib/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
     <!-- 导航栏 -->
     <nav class="navbar navbar-inverse">
         <div class="navbar-header">
@@ -22,46 +19,70 @@
         </div>
         <div id="navbar-menu" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="#">WORK</a></li>
-                <li><a href="#">ABOUT</a></li>
+                <li class="active"><a href="#">在线编辑</a></li>
+                <li><a href="#">文本上传</a></li>
+                <li><a href="#">格式相关</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- 主体 -->
     <div class="container-fluid" style="text-align: center">
-        <h2>CLab产品配置</h2>
-        <p class="lead">输入格式介绍:</p>
+        <h3>CLab产品配置--在线编辑</h3>
 
         <div style="margin-top: 50px">
             <form class="form-horizontal">
 
                 <div class="form-group" style="margin: 10px">
                   <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">input: </label>
-                    <div class="col-sm-10">
-                        <input type="file" id="exampleInputFile" class="file" style="width: 100px">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group" style="margin: 10px">
-                  <div class="form-group form-group-sm">
                     <label class="col-sm-2 control-label">rule: </label>
                     <div class="col-sm-10">
-                       <textarea class="form-control" type="text" name="description" style="height:80px;width: 420px" id="bicDescription"></textarea>
+                       <textarea class="form-control" type="text" style="height:300px;width: 900px" id="textForm"></textarea>
                     </div>
                   </div>
                 </div>
 
+                <div class="form-group">
+                    <button type="button" id="sureBtn" class="btn btn-primary" >
+                       确定
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 
+    <!-- 下载链接模态框 -->
+    <div class="modal fade" id="showUrl" tabindex="-1" role="dialog"
+       aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-dialog">
+          <div class="modal-content">
+             <div class="modal-header">
+                <button type="button" class="close"
+                   data-dismiss="modal" aria-hidden="true">
+                      &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                   结果下载链接
+                </h4>
+             </div>
 
-    <script src="../static/clab-web/js/lib/jquery-3.1.0.min.js"></script>
-    <script src="../static/clab-web/js/lib/bootstrap.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap-fileinput/4.3.4/js/fileinput.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap-fileinput/4.3.4/js/locales/zh.js"></script>
+             <div class="modal-body">
+                <a href="{{ url_for('static', filename='CLab10/examples/shirt/shirt.cc') }}" id="url">output.txt</a>
+             </div>
+
+             <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                   关闭
+                </button>
+             </div>
+          </div>
+       </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+
+
+
+    <script src="/clab-web/js/lib/jquery-3.1.0.min.js"></script>
+    <script src="/clab-web/js/lib/bootstrap.min.js"></script>
+    <script src="/clab-web/js/uploadingManage.js"></script>
 </body>
 </html>
