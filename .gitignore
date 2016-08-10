@@ -7,7 +7,6 @@ db_repository
 flask
 node_modules
 .idea/
-config.py
 files/
 CLab10/
 app.ini
