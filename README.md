@@ -27,6 +27,8 @@ $ sh install.sh
 ```
 http://www.itu.dk/~rmj/pmwiki/pmwiki.php?n=Main.CLab
 ```
++ 将项目文档下的shirt.cc覆盖CLab10/examples/shirt/shirt.cc
+
 ### 使用方法
 + 进入项目文件夹中，启动虚拟环境
 
