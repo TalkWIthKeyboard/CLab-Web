@@ -24,7 +24,7 @@ def submit_textarea_form():
             if rule:
                 fileHandle = open('app/static/CLab10/examples/shirt/shirt.cp','w')
                 fileHandle.write(rule)
-                os.system('cd app/static/CLab10/examples/shirt; ./shirt')
+                os.system('cd ../static/CLab10/examples/shirt; ./shirt')
                 return jsonify(dict(message=0))
             else:
                 return jsonify(dict(message=1))
