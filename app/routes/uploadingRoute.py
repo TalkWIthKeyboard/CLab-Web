@@ -1,5 +1,5 @@
 from app import app
-from flask import Flask,render_template,request,jsonify
+from flask import Flask,render_template,request,jsonify,redirect,url_for
 import os
 import sys
 import subprocess
@@ -8,6 +8,9 @@ reload(sys)
 
 sys.setdefaultencoding('utf8')
 
+@app.route('/', methods=['GET'])
+def init():
+    return redirect(url_for('index'))
 
 @app.route('/clab/uploading',methods=['GET'])
 def index():
@@ -31,7 +34,8 @@ def submit_textarea_form():
             else:
                 return jsonify(dict(message=1))
         except Exception,e:
-            return jsonify(dict(message=2))
+            return jsonify(dict(message=2,e=e.message))
+
 
 @app.route('/clab/uploading/submitForm/file',methods=['POST'])
 def submit_file_form():

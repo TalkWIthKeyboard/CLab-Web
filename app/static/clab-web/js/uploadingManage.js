@@ -15,17 +15,17 @@ $(function () {
                 'rule':rule
             },
             success:function (data) {
-              if (data.message == 0)
-              {
-                  $('#showUrl').modal('show');
-              }
-              else
-              {
-                 if (data.message == 1)
-                 {
-                    alert('请输入正确的文件格式');
-                 }
-              }
+                if (data.message == 0) {
+                    $('#showUrl').modal('show');
+                }
+                else {
+                    if (data.message == 1) {
+                        alert('请输入正确的文件格式');
+                    }
+                    else{
+                        alert('出现异常：' + data.e);
+                    }
+                }
             }
         })
         

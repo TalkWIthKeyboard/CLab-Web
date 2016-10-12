@@ -1,2 +1,0 @@
-CLab system call error: 
-Cannot open "shirt.cp"
