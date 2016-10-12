@@ -2,6 +2,7 @@ from app import app
 from flask import Flask,render_template,request,jsonify
 import os
 import sys
+import subprocess
 
 reload(sys)
 
@@ -24,7 +25,9 @@ def submit_textarea_form():
             if rule:
                 fileHandle = open('app/static/CLab10/examples/shirt/shirt.cp','w')
                 fileHandle.write(rule)
-                os.system('cd app/static/CLab10/examples/shirt; python work.py')
+                p = subprocess.call('cd app/static/CLab10/examples/shirt; cd ../../src; ls',
+                                    shell=True)
+                # os.system('cd app/static/CLab10/examples/shirt; python work.py')
                 return jsonify(dict(message=0))
             else:
                 return jsonify(dict(message=1))
