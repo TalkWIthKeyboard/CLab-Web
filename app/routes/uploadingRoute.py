@@ -25,9 +25,8 @@ def submit_textarea_form():
             if rule:
                 fileHandle = open('app/static/CLab10/examples/shirt/shirt.cp','w')
                 fileHandle.write(rule)
-                p = subprocess.call('cd app/static/CLab10/examples/shirt; cd ../../src; ls',
-                                    shell=True)
-                # os.system('cd app/static/CLab10/examples/shirt; python work.py')
+                fileHandle.close()
+                p = subprocess.call('cd app/static/CLab10/examples/shirt && python work.py',shell=True)
                 return jsonify(dict(message=0))
             else:
                 return jsonify(dict(message=1))
@@ -48,4 +47,3 @@ def submit_file_form():
                 return jsonify(dict(message=1))
         except:
             return jsonify(dict(message=2))
-
