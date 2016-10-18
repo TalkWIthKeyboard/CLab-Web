@@ -29,8 +29,4 @@ $(function () {
             }
         })
     })
-    
-    $('#summary-btn').click(function () {
-        window.location.href = 'CLab10/examples/shirt/shirt.cc'
-    });
 })
