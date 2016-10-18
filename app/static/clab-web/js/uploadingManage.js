@@ -4,7 +4,7 @@
 
 $(function () {
 
-    $('.download-btn').attr('disabled','disabled');
+    // $('.download-btn').attr('disabled','disabled');
 
     $('#sureBtn').click(function () {
         var rule = $('#input-rule').val();
@@ -27,4 +27,8 @@ $(function () {
             }
         })
     })
+    
+    $('#summary-btn').click(function () {
+        window.location.href = 'CLab10/examples/shirt/shirt.cc'
+    });
 })

@@ -54,9 +54,9 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="button" class="btn btn-primary download-btn">
+                        <a type="button" class="btn btn-primary download-btn" href="{{ url_for('static', filename='CLab10/examples/shirt/output.txt') }}">
                            下载
-                        </button>
+                        </a>
                     </div>
                 </form>
             </div>
@@ -69,47 +69,14 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="button" class="btn btn-primary download-btn">
+                        <a type="button" class="btn btn-primary download-btn" href="{{ url_for('static', filename='CLab10/examples/shirt/outputDump.dump') }}">
                            下载
-                        </button>
+                        </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <!-- 下载链接模态框 -->
-    <div class="modal fade" id="showUrl" tabindex="-1" role="dialog"
-       aria-labelledby="myModalLabel" aria-hidden="true">
-       <div class="modal-dialog">
-          <div class="modal-content">
-             <div class="modal-header">
-                <button type="button" class="close"
-                   data-dismiss="modal" aria-hidden="true">
-                      &times;
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                   结果下载链接
-                </h4>
-             </div>
-
-             <div class="modal-body">
-                 <div class="row download-link">
-                     <a href="{{ url_for('static', filename='CLab10/examples/shirt/output.txt') }}" id="url">output.txt</a>
-                 </div>
-                 <div class="row download-link">
-                     <a href="{{ url_for('static', filename='CLab10/examples/shirt/outputDump.dump') }}" id="url">outputDump.dump</a>
-                 </div>
-             </div>
-
-             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                   关闭
-                </button>
-             </div>
-          </div>
-       </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
 
     <script src="/clab-web/js/lib/jquery-3.1.0.min.js"></script>
     <script src="/clab-web/js/lib/bootstrap.min.js"></script>
