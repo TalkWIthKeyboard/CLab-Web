@@ -3,7 +3,9 @@
  */
 
 $(function () {
-    
+
+    $('.download-btn').attr('disabled','disabled');
+
     $('#sureBtn').click(function () {
         var rule = $('#input-rule').val();
         var url = '/clab/uploading/submitForm/textarea';
@@ -16,9 +18,8 @@ $(function () {
             success:function (data) {
                 if (data['error'] == '') {
                     $('#output-summary').val(data['summary']);
-                    $('#output-summary').attr('disabled','');
-                    $('#output-detail').val(data['output-detail']);
-                    $('#output-detail').attr('disabled','');
+                    $('#output-detail').val(data['detail']);
+                    $('.download-btn').removeAttribute('disabled');
                 }
                 else {
                     alert(data['error']);
