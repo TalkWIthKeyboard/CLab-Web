@@ -5,8 +5,7 @@
 $(function () {
     
     $('#sureBtn').click(function () {
-        
-        var rule = $('#textForm').val();
+        var rule = $('#input-rule').val();
         var url = '/clab/uploading/submitForm/textarea';
         $.ajax({
             url:url,
@@ -15,20 +14,16 @@ $(function () {
                 'rule':rule
             },
             success:function (data) {
-                if (data.message == 0) {
-                    $('#showUrl').modal('show');
+                if (data['error'] == '') {
+                    $('#output-summary').val(data['summary']);
+                    $('#output-summary').attr('disabled','');
+                    $('#output-detail').val(data['output-detail']);
+                    $('#output-detail').attr('disabled','');
                 }
                 else {
-                    if (data.message == 1) {
-                        alert('请输入正确的文件格式');
-                    }
-                    else{
-                        alert('出现异常：' + data.e);
-                    }
+                    alert(data['error']);
                 }
             }
         })
-        
     })
-
 })

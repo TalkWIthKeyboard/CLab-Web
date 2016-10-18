@@ -17,39 +17,64 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">CLab产品配置</a>
+            <a class="navbar-brand" href="#">CLAB</a>
         </div>
         <div id="navbar-menu" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="{{ url_for('submit_textarea_form') }}">在线编辑</a></li>
-                <li><a href="#">文本上传</a></li>
                 <li><a href="#">格式相关</a></li>
             </ul>
+
         </div>
     </nav>
 
     <!-- 主体 -->
     <div class="container-fluid" style="text-align: center">
-        <h3>在线编辑</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <form class="form-horizontal form-margin">
+                    <div class="form-group">
+                        <label for="input-rule">规则</label>
+                        <textarea class="form-control input-text" type="text" id="input-rule" style="height: 550px"></textarea>
+                      </div>
 
-        <div style="margin-top: 50px">
-            <form class="form-horizontal">
-
-                <div class="form-group" style="margin: 10px">
-                  <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label rule-font">rule: </label>
-                    <div class="col-sm-10">
-                       <textarea class="form-control" type="text" style="height:300px;width: 900px" id="textForm"></textarea>
+                    <div class="form-group">
+                        <button type="button" id="sureBtn" class="btn btn-primary" >
+                           确定
+                        </button>
                     </div>
-                  </div>
-                </div>
+                </form>
+            </div>
 
-                <div class="form-group">
-                    <button type="button" id="sureBtn" class="btn btn-primary" >
-                       确定
-                    </button>
-                </div>
-            </form>
+            <div class="col-md-4">
+                <form class="form-horizontal form-margin">
+                    <div class="form-group">
+                        <label for="out-summary">输出（总体）</label>
+                        <textarea class="form-control input-text" type="text" id="output-summary" readonly style="height: 550px"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" id="downloadBtn" class="btn btn-primary" disabled="disabled">
+                           下载
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-4">
+                <form class="form-horizontal form-margin">
+                    <div class="form-group">
+                        <label for="out-detail">输出（详细）</label>
+                        <textarea class="form-control input-text" type="text" id="output-detail" readonly style="height: 550px"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" id="downloadBtn" class="btn btn-primary" disabled="disabled">
+                           下载
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
