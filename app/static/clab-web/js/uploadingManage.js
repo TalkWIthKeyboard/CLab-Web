@@ -19,7 +19,7 @@ $(function () {
                 if (data['error'] == '') {
                     $('#output-summary').val(data['summary']);
                     $('#output-detail').val(data['detail']);
-                    $('.download-btn').removeAttribute('disabled');
+                    $('.download-btn').removeAttr('disabled');
                 }
                 else {
                     alert(data['error']);
