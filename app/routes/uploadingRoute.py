@@ -28,7 +28,7 @@ def submit_textarea_form():
         try:
             rule = request.form['rule']
             if rule:
-                write_file('app/static/CLab10/examples/shirt/shirt.cp')
+                write_file('app/static/CLab10/examples/shirt/shirt.cp',rule)
                 p = subprocess.call('cd app/static/CLab10/examples/shirt && python work.py',shell=True)
                 dict['detail'] = read_file('app/static/CLab10/examples/shirt/outputDump.dump')
                 dict['summary'] = read_file('app/static/CLab10/examples/shirt/output.txt')
