@@ -31,7 +31,7 @@ def submit_textarea_form():
                 write_file('app/static/CLab10/examples/shirt/shirt.cp',rule)
                 p = subprocess.call('cd app/static/CLab10/examples/shirt && python work.py',shell=True)
                 dict['detail'] = read_file('app/static/CLab10/examples/shirt/outputDump.dump')
-                dict['summary'] = read_file('app/static/CLab10/examples/shirt/output.txt')
+                dict['summary'] = read_file('app/static/CLab10/examples/shirt/output.out')
                 dict['error'] = ''
                 return jsonify(dict)
             else:
