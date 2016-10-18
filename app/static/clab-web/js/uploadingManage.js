@@ -4,7 +4,7 @@
 
 $(function () {
 
-    // $('.download-btn').attr('disabled','disabled');
+    $('.download-btn').attr('disabled','disabled');
 
     $('#sureBtn').click(function () {
         var rule = $('#input-rule').val();
@@ -22,7 +22,9 @@ $(function () {
                     $('.download-btn').removeAttr('disabled');
                 }
                 else {
-                    alert(data['error']);
+                        $('#output-summary').empty();
+                        $('#output-detail').empty();
+                        alert(data['error']);
                 }
             }
         })
