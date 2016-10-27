@@ -50,9 +50,9 @@ def upload_file():
             fileName = file.filename
             if file and allowed_file(fileName):
                 path = os.path.join(app.config['UPLOAD_FOLDER'], 'shirt.cp')
-                dict['input'] = read_file('app/static/CLab10/examples/shirt/shirt.cp')
                 file.save(path)
                 dict = make_dict()
+		dict['input'] = read_file('app/static/CLab10/examples/shirt/shirt.cp')
                 return jsonify(dict)
             else:
                 dict['error'] = '输入格式错误！'
