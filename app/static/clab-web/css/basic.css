@@ -10,3 +10,29 @@
 .form-margin{
     margin-top: 10px;
 }
+
+.text-write-box{
+    margin-top: 5px;
+}
+
+#exampleInputFile{
+    display: none;
+}
+
+.upload-box{
+    width: 79.8%;
+    /*width: 268px;*/
+    margin-left: 10%;
+}
+
+.upload-box .col-md-box{
+    padding: 0;
+}
+
+.upload-box .col-md-9{
+    width: 79.8%;
+}
+
+.upload-box .col-md-2{
+    float: right;
+}

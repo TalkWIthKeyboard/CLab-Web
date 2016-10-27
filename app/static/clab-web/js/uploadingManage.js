@@ -28,5 +28,46 @@ $(function () {
                 }
             }
         })
-    })
-})
+    });
+
+    // 上传组件
+    $('.sure-upload-btn').click(function () {
+        $('#exampleInputFile').trigger('click');
+        $('#exampleInputFile').change(function(){
+            var fileName = $(this).val();
+            $('#file-name-input').val(getFileName(fileName));
+            var file = this.files[0];
+            uploadFile(file);
+        });
+    });
+
+    function getFileName(fileName){
+        var pos = fileName.lastIndexOf("\\");
+        return fileName.substring(pos+1);
+    }
+
+    function uploadFile(formData){
+        var fd = new FormData();
+        fd.append('file',formData);
+        $.ajax({
+            url:'/clab/uploadFile',
+            type: 'POST',
+            data: fd,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data['error'] == '') {
+                    $('#output-summary').val(data['summary']);
+                    $('#output-detail').val(data['detail']);
+                }
+                else {
+                    $('#output-summary').empty();
+                    $('#output-detail').empty();
+                    alert(data[error]);
+                }
+            }
+        })
+    }
+});
+
+

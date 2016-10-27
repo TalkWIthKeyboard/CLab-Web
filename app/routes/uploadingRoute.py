@@ -17,22 +17,18 @@ def init():
 def index():
     return render_template('uploadingManage.html')
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
-
 @app.route('/clab/uploading/submitForm/textarea',methods=['POST'])
 def submit_textarea_form():
+    '''
+        从文本输入规则，进行clab计算并返回结果
+    '''
     if request.method == 'POST':
         dict = {}
         try:
             rule = request.form['rule']
             if rule:
                 write_file('app/static/CLab10/examples/shirt/shirt.cp',rule)
-                p = subprocess.call('cd app/static/CLab10/examples/shirt && python work.py',shell=True)
-                dict['detail'] = read_file('app/static/CLab10/examples/shirt/outputDump.dump')
-                dict['summary'] = read_file('app/static/CLab10/examples/shirt/output.out')
-                dict['error'] = ''
+                dict = make_dict()
                 return jsonify(dict)
             else:
                 dict['error'] = '没有输入!'
@@ -42,22 +38,27 @@ def submit_textarea_form():
             return jsonify(dict)
 
 
-# @app.route('/clab/uploading/submitForm/file',methods=['POST'])
-# def submit_file_form():
-#     if request.method == 'POST':
-#         try:
-#             file = request.form['file']
-#             if file and allowed_file(file):
-#                 path = os.path.join(app.config['UPLOAD_FOLDER'], 'shirt.cp')
-#                 file.save(path)
-#                 os.system('cd ../static/CLab10/examples/shirt; ./shirt')
-#                 return jsonify(dict(message=0))
-#             else:
-#                 return jsonify(dict(message=1))
-#         except:
-#             return jsonify(dict(message=2))
-
-
+@app.route('/clab/uploadFile',methods=['POST'])
+def upload_file():
+    '''
+        从文件上传规则，进行clab计算并返回结果
+    '''
+    if request.method == 'POST':
+        dict = {}
+        try:
+            file = request.files['file']
+            fileName = file.filename
+            if file and allowed_file(fileName):
+                path = os.path.join(app.config['UPLOAD_FOLDER'], 'shirt.cp')
+                file.save(path)
+                dict = make_dict()
+                return jsonify(dict)
+            else:
+                dict['error'] = '输入格式错误！'
+                return jsonify(dict)
+        except Exception,e:
+            dict['error'] = e.message
+            return jsonify(dict)
 
 
 def read_file(path):
@@ -76,3 +77,24 @@ def write_file(path,content):
     file = open(path, 'w')
     file.write(content)
     file.close()
+
+def make_dict():
+    '''
+        注入c程序获得输出
+    '''
+    dict = {}
+    try:
+        subprocess.call('cd app/static/CLab10/examples/shirt && python work.py', shell=True)
+        dict['detail'] = read_file('app/static/CLab10/examples/shirt/outputDump.dump')
+        dict['summary'] = read_file('app/static/CLab10/examples/shirt/output.out')
+        dict['error'] = ''
+    except Exception,e:
+        dict['error'] = e.message
+        return dict
+
+def allowed_file(filename):
+    '''
+        验证上传文件的格式是否合法
+    '''
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
