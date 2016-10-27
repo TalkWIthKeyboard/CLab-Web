@@ -48,6 +48,7 @@ def upload_file():
         try:
             file = request.files['file']
             fileName = file.filename
+	    print(fileName)
             if file and allowed_file(fileName):
                 path = os.path.join(app.config['UPLOAD_FOLDER'], 'shirt.cp')
                 file.save(path)
@@ -88,6 +89,7 @@ def make_dict():
         dict['detail'] = read_file('app/static/CLab10/examples/shirt/outputDump.dump')
         dict['summary'] = read_file('app/static/CLab10/examples/shirt/output.out')
         dict['error'] = ''
+	return dict
     except Exception,e:
         dict['error'] = e.message
         return dict
