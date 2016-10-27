@@ -59,6 +59,8 @@ $(function () {
                 if (data['error'] == '') {
                     $('#output-summary').val(data['summary']);
                     $('#output-detail').val(data['detail']);
+                    $('#input-rule').val(data['input']);
+                    $('.download-btn').removeAttr('disabled');
                 }
                 else {
                     $('#output-summary').empty();

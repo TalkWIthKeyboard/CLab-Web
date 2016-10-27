@@ -48,9 +48,9 @@ def upload_file():
         try:
             file = request.files['file']
             fileName = file.filename
-	    print(fileName)
             if file and allowed_file(fileName):
                 path = os.path.join(app.config['UPLOAD_FOLDER'], 'shirt.cp')
+                dict['input'] = read_file('app/static/CLab10/examples/shirt/shirt.cp')
                 file.save(path)
                 dict = make_dict()
                 return jsonify(dict)
@@ -89,7 +89,7 @@ def make_dict():
         dict['detail'] = read_file('app/static/CLab10/examples/shirt/outputDump.dump')
         dict['summary'] = read_file('app/static/CLab10/examples/shirt/output.out')
         dict['error'] = ''
-	return dict
+        return dict
     except Exception,e:
         dict['error'] = e.message
         return dict
