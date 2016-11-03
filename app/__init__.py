@@ -7,3 +7,4 @@ app.config.from_object('config')
 
 # routes
 from app.routes import uploadingRoute
+from app.routes import checkoutRoute
