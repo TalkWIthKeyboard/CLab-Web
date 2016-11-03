@@ -1,8 +1,10 @@
-package Search;
+
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -21,8 +23,8 @@ public class Search {
 		FileInputStream fis = null;
 		InputStreamReader isr = null;
 		BufferedReader br = null;
-		fis = new FileInputStream("C:\\Users\\Administrator\\Desktop\\encode.txt");// FileInputStream
-		isr = new InputStreamReader(fis);// InputStreamReader 是字节流通向字符流的桥梁,
+		fis = new FileInputStream("./document/encode.txt");// FileInputStream
+		isr = new InputStreamReader(fis);
 		br = new BufferedReader(isr);
 		String str="";
 		String[][] matrix=new String[200][];
@@ -59,8 +61,8 @@ public class Search {
 			 System.out.println(key);
 		 }*/
 		 
-		 fis = new FileInputStream("C:\\Users\\Administrator\\Desktop\\feasible_solution.txt");// FileInputStream
-		 isr = new InputStreamReader(fis);// InputStreamReader 是字节流通向字符流的桥梁,
+		 fis = new FileInputStream("./document/feasible_solution.txt");// FileInputStream
+		 isr = new InputStreamReader(fis);
 		 br = new BufferedReader(isr);
 		 String str1="";
 			String[][] matrix1=new String[200][];
@@ -103,25 +105,33 @@ public class Search {
 				 System.out.println();
 			 }*/
 			
-			 Scanner sc = new Scanner(System.in);
+			// Scanner sc = new Scanner(System.in);
+			 fis = new FileInputStream("./document/input.txt");// FileInputStream
+			 isr = new InputStreamReader(fis);
+			 br = new BufferedReader(isr);
 			 String s="";
 			 ArrayList<String> res=null;
 			 int cout=3;
 			 HashSet<String> hSet=new HashSet<String>();
 			 int sum=0;
+		     File file = new File("./document/output.txt");
+		     FileWriter fw = new FileWriter(file,false); 
+		    
 			 while(cout!=0)
 			 {
-				  s = sc.nextLine();
+				  s = br.readLine();
+				  if(s==null)
+					  break;
 				  if(map.get(s)!=null)
 				  {
 					  res= map.get(s);
 					boolean isExist=  hSet.add(res.get(0));
 					  if(!isExist)
 					  {
-						  System.out.println("该属性已经选了不能重复选");
+						  fw.write("Property has been selected can not be repeated selection\r\n");
 						  continue;
 					  }   
-					   //给不符合条件的加上标记0
+					 
 					   for(int i=0;i<res.get(0).length();i++)
 					   {
 						   int col= res.get(0).charAt(i)-'0';
@@ -150,7 +160,7 @@ public class Search {
 						  if(sum==0)
 						  {
 							 
-							  System.out.println("无符合要求的可行解");
+							  fw.write("No feasible solution\r\n");
 							  break;
 							  
 						  }
@@ -162,20 +172,26 @@ public class Search {
 				  
 				  else 
 				  {
-					  System.out.println("输入不存在");
+					  fw.write("Input does not exist\r\n");
+					  
+					//  System.out.print(s);
 					  continue;
 					  
 				  }	  
 				cout--;
 				
 			 }
+			 br.close();
+			 isr.close();
+			 fis.close();
 			 if(sum>0)
 			 {
-				  System.out.println("存在可行解");
+				 fw.write("Existence of feasible solutions\r\n");
+				 
 			 }
 			
 			 
-			
+			fw.close();
 
 			
 		
