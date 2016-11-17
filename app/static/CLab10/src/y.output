@@ -1,0 +1,1265 @@
+   0  $accept : cp $end
+
+   1  cp : TYPE typedecls VARIABLE vardecls RULE ruledecls
+   2     | VARIABLE vardecls RULE ruledecls
+
+   3  typedecls :
+   4            | typedecl typedecls
+
+   5  typedecl : id '[' integer '.' '.' integer ']' ';'
+   6           | id '{' idlst '}' ';'
+
+   7  vardecls :
+   8           | vardecl vardecls
+
+   9  vardecl : vartype idlst ';'
+
+  10  vartype : BOOL
+  11          | id
+
+  12  idlst : id
+  13        | id ',' idlst
+
+  14  ruledecls :
+  15            | ruledecl ruledecls
+
+  16  ruledecl : exp ';'
+
+  17  exp : number
+  18      | id
+  19      | '-' exp
+  20      | '!' exp
+  21      | '(' exp ')'
+  22      | exp IMPL exp
+  23      | exp OR exp
+  24      | exp AND exp
+  25      | exp LTE exp
+  26      | exp GTE exp
+  27      | exp '<' exp
+  28      | exp '>' exp
+  29      | exp NE exp
+  30      | exp EQ exp
+  31      | exp '-' exp
+  32      | exp '+' exp
+  33      | exp '%' exp
+  34      | exp '/' exp
+  35      | exp '*' exp
+
+  36  id : ID
+
+  37  integer : number
+  38          | '-' number
+
+  39  number : NUMBER
+
+state 0
+	$accept : . cp $end  (0)
+
+	TYPE  shift 1
+	VARIABLE  shift 2
+	.  error
+
+	cp  goto 3
+
+
+state 1
+	cp : TYPE . typedecls VARIABLE vardecls RULE ruledecls  (1)
+	typedecls : .  (3)
+
+	ID  shift 4
+	VARIABLE  reduce 3
+
+	typedecls  goto 5
+	typedecl  goto 6
+	id  goto 7
+
+
+state 2
+	cp : VARIABLE . vardecls RULE ruledecls  (2)
+	vardecls : .  (7)
+
+	BOOL  shift 8
+	ID  shift 4
+	RULE  reduce 7
+
+	vardecls  goto 9
+	id  goto 10
+	vardecl  goto 11
+	vartype  goto 12
+
+
+state 3
+	$accept : cp . $end  (0)
+
+	$end  accept
+
+
+state 4
+	id : ID .  (36)
+
+	.  reduce 36
+
+
+state 5
+	cp : TYPE typedecls . VARIABLE vardecls RULE ruledecls  (1)
+
+	VARIABLE  shift 13
+	.  error
+
+
+state 6
+	typedecls : typedecl . typedecls  (4)
+	typedecls : .  (3)
+
+	ID  shift 4
+	VARIABLE  reduce 3
+
+	typedecls  goto 14
+	typedecl  goto 6
+	id  goto 7
+
+
+state 7
+	typedecl : id . '[' integer '.' '.' integer ']' ';'  (5)
+	typedecl : id . '{' idlst '}' ';'  (6)
+
+	'['  shift 15
+	'{'  shift 16
+	.  error
+
+
+state 8
+	vartype : BOOL .  (10)
+
+	.  reduce 10
+
+
+state 9
+	cp : VARIABLE vardecls . RULE ruledecls  (2)
+
+	RULE  shift 17
+	.  error
+
+
+state 10
+	vartype : id .  (11)
+
+	.  reduce 11
+
+
+state 11
+	vardecls : vardecl . vardecls  (8)
+	vardecls : .  (7)
+
+	BOOL  shift 8
+	ID  shift 4
+	RULE  reduce 7
+
+	vardecls  goto 18
+	id  goto 10
+	vardecl  goto 11
+	vartype  goto 12
+
+
+state 12
+	vardecl : vartype . idlst ';'  (9)
+
+	ID  shift 4
+	.  error
+
+	id  goto 19
+	idlst  goto 20
+
+
+state 13
+	cp : TYPE typedecls VARIABLE . vardecls RULE ruledecls  (1)
+	vardecls : .  (7)
+
+	BOOL  shift 8
+	ID  shift 4
+	RULE  reduce 7
+
+	vardecls  goto 21
+	id  goto 10
+	vardecl  goto 11
+	vartype  goto 12
+
+
+state 14
+	typedecls : typedecl typedecls .  (4)
+
+	.  reduce 4
+
+
+state 15
+	typedecl : id '[' . integer '.' '.' integer ']' ';'  (5)
+
+	NUMBER  shift 22
+	'-'  shift 23
+	.  error
+
+	integer  goto 24
+	number  goto 25
+
+
+state 16
+	typedecl : id '{' . idlst '}' ';'  (6)
+
+	ID  shift 4
+	.  error
+
+	id  goto 19
+	idlst  goto 26
+
+
+state 17
+	cp : VARIABLE vardecls RULE . ruledecls  (2)
+	ruledecls : .  (14)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	$end  reduce 14
+
+	ruledecls  goto 30
+	id  goto 31
+	ruledecl  goto 32
+	exp  goto 33
+	number  goto 34
+
+
+state 18
+	vardecls : vardecl vardecls .  (8)
+
+	.  reduce 8
+
+
+state 19
+	idlst : id .  (12)
+	idlst : id . ',' idlst  (13)
+
+	','  shift 35
+	';'  reduce 12
+	'}'  reduce 12
+
+
+state 20
+	vardecl : vartype idlst . ';'  (9)
+
+	';'  shift 36
+	.  error
+
+
+state 21
+	cp : TYPE typedecls VARIABLE vardecls . RULE ruledecls  (1)
+
+	RULE  shift 37
+	.  error
+
+
+state 22
+	number : NUMBER .  (39)
+
+	.  reduce 39
+
+
+state 23
+	integer : '-' . number  (38)
+
+	NUMBER  shift 22
+	.  error
+
+	number  goto 38
+
+
+state 24
+	typedecl : id '[' integer . '.' '.' integer ']' ';'  (5)
+
+	'.'  shift 39
+	.  error
+
+
+state 25
+	integer : number .  (37)
+
+	.  reduce 37
+
+
+state 26
+	typedecl : id '{' idlst . '}' ';'  (6)
+
+	'}'  shift 40
+	.  error
+
+
+state 27
+	exp : '-' . exp  (19)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 41
+	number  goto 34
+
+
+state 28
+	exp : '!' . exp  (20)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 42
+	number  goto 34
+
+
+state 29
+	exp : '(' . exp ')'  (21)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 43
+	number  goto 34
+
+
+state 30
+	cp : VARIABLE vardecls RULE ruledecls .  (2)
+
+	.  reduce 2
+
+
+state 31
+	exp : id .  (18)
+
+	.  reduce 18
+
+
+state 32
+	ruledecls : ruledecl . ruledecls  (15)
+	ruledecls : .  (14)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	$end  reduce 14
+
+	ruledecls  goto 44
+	id  goto 31
+	ruledecl  goto 32
+	exp  goto 33
+	number  goto 34
+
+
+state 33
+	ruledecl : exp . ';'  (16)
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	AND  shift 45
+	OR  shift 46
+	IMPL  shift 47
+	EQ  shift 48
+	NE  shift 49
+	GTE  shift 50
+	LTE  shift 51
+	'<'  shift 52
+	'>'  shift 53
+	'+'  shift 54
+	'-'  shift 55
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	';'  shift 59
+	.  error
+
+
+state 34
+	exp : number .  (17)
+
+	.  reduce 17
+
+
+state 35
+	idlst : id ',' . idlst  (13)
+
+	ID  shift 4
+	.  error
+
+	id  goto 19
+	idlst  goto 60
+
+
+state 36
+	vardecl : vartype idlst ';' .  (9)
+
+	.  reduce 9
+
+
+state 37
+	cp : TYPE typedecls VARIABLE vardecls RULE . ruledecls  (1)
+	ruledecls : .  (14)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	$end  reduce 14
+
+	ruledecls  goto 61
+	id  goto 31
+	ruledecl  goto 32
+	exp  goto 33
+	number  goto 34
+
+
+state 38
+	integer : '-' number .  (38)
+
+	.  reduce 38
+
+
+state 39
+	typedecl : id '[' integer '.' . '.' integer ']' ';'  (5)
+
+	'.'  shift 62
+	.  error
+
+
+state 40
+	typedecl : id '{' idlst '}' . ';'  (6)
+
+	';'  shift 63
+	.  error
+
+
+state 41
+	exp : '-' exp .  (19)
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	.  reduce 19
+
+
+state 42
+	exp : '!' exp .  (20)
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	.  reduce 20
+
+
+state 43
+	exp : '(' exp . ')'  (21)
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	AND  shift 45
+	OR  shift 46
+	IMPL  shift 47
+	EQ  shift 48
+	NE  shift 49
+	GTE  shift 50
+	LTE  shift 51
+	'<'  shift 52
+	'>'  shift 53
+	'+'  shift 54
+	'-'  shift 55
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	')'  shift 64
+	.  error
+
+
+state 44
+	ruledecls : ruledecl ruledecls .  (15)
+
+	.  reduce 15
+
+
+state 45
+	exp : exp AND . exp  (24)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 65
+	number  goto 34
+
+
+state 46
+	exp : exp OR . exp  (23)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 66
+	number  goto 34
+
+
+state 47
+	exp : exp IMPL . exp  (22)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 67
+	number  goto 34
+
+
+state 48
+	exp : exp EQ . exp  (30)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 68
+	number  goto 34
+
+
+state 49
+	exp : exp NE . exp  (29)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 69
+	number  goto 34
+
+
+state 50
+	exp : exp GTE . exp  (26)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 70
+	number  goto 34
+
+
+state 51
+	exp : exp LTE . exp  (25)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 71
+	number  goto 34
+
+
+state 52
+	exp : exp '<' . exp  (27)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 72
+	number  goto 34
+
+
+state 53
+	exp : exp '>' . exp  (28)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 73
+	number  goto 34
+
+
+state 54
+	exp : exp '+' . exp  (32)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 74
+	number  goto 34
+
+
+state 55
+	exp : exp '-' . exp  (31)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 75
+	number  goto 34
+
+
+state 56
+	exp : exp '/' . exp  (34)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 76
+	number  goto 34
+
+
+state 57
+	exp : exp '%' . exp  (33)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 77
+	number  goto 34
+
+
+state 58
+	exp : exp '*' . exp  (35)
+
+	ID  shift 4
+	NUMBER  shift 22
+	'-'  shift 27
+	'!'  shift 28
+	'('  shift 29
+	.  error
+
+	id  goto 31
+	exp  goto 78
+	number  goto 34
+
+
+state 59
+	ruledecl : exp ';' .  (16)
+
+	.  reduce 16
+
+
+state 60
+	idlst : id ',' idlst .  (13)
+
+	.  reduce 13
+
+
+state 61
+	cp : TYPE typedecls VARIABLE vardecls RULE ruledecls .  (1)
+
+	.  reduce 1
+
+
+state 62
+	typedecl : id '[' integer '.' '.' . integer ']' ';'  (5)
+
+	NUMBER  shift 22
+	'-'  shift 23
+	.  error
+
+	integer  goto 79
+	number  goto 25
+
+
+state 63
+	typedecl : id '{' idlst '}' ';' .  (6)
+
+	.  reduce 6
+
+
+state 64
+	exp : '(' exp ')' .  (21)
+
+	.  reduce 21
+
+
+state 65
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp AND exp .  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	IMPL  shift 47
+	EQ  shift 48
+	NE  shift 49
+	GTE  shift 50
+	LTE  shift 51
+	'<'  shift 52
+	'>'  shift 53
+	'+'  shift 54
+	'-'  shift 55
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	AND  reduce 24
+	OR  reduce 24
+	';'  reduce 24
+	')'  reduce 24
+
+
+state 66
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp OR exp .  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	AND  shift 45
+	IMPL  shift 47
+	EQ  shift 48
+	NE  shift 49
+	GTE  shift 50
+	LTE  shift 51
+	'<'  shift 52
+	'>'  shift 53
+	'+'  shift 54
+	'-'  shift 55
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	OR  reduce 23
+	';'  reduce 23
+	')'  reduce 23
+
+
+state 67
+	exp : exp . IMPL exp  (22)
+	exp : exp IMPL exp .  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	'+'  shift 54
+	'-'  shift 55
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	AND  reduce 22
+	OR  reduce 22
+	IMPL  reduce 22
+	EQ  reduce 22
+	NE  reduce 22
+	GTE  reduce 22
+	LTE  reduce 22
+	'<'  reduce 22
+	'>'  reduce 22
+	';'  reduce 22
+	')'  reduce 22
+
+
+state 68
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp EQ exp .  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	IMPL  shift 47
+	GTE  shift 50
+	LTE  shift 51
+	'<'  shift 52
+	'>'  shift 53
+	'+'  shift 54
+	'-'  shift 55
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	AND  reduce 30
+	OR  reduce 30
+	EQ  reduce 30
+	NE  reduce 30
+	';'  reduce 30
+	')'  reduce 30
+
+
+state 69
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp NE exp .  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	IMPL  shift 47
+	GTE  shift 50
+	LTE  shift 51
+	'<'  shift 52
+	'>'  shift 53
+	'+'  shift 54
+	'-'  shift 55
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	AND  reduce 29
+	OR  reduce 29
+	EQ  reduce 29
+	NE  reduce 29
+	';'  reduce 29
+	')'  reduce 29
+
+
+state 70
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp GTE exp .  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	IMPL  shift 47
+	'+'  shift 54
+	'-'  shift 55
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	AND  reduce 26
+	OR  reduce 26
+	EQ  reduce 26
+	NE  reduce 26
+	GTE  reduce 26
+	LTE  reduce 26
+	'<'  reduce 26
+	'>'  reduce 26
+	';'  reduce 26
+	')'  reduce 26
+
+
+state 71
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp LTE exp .  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	IMPL  shift 47
+	'+'  shift 54
+	'-'  shift 55
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	AND  reduce 25
+	OR  reduce 25
+	EQ  reduce 25
+	NE  reduce 25
+	GTE  reduce 25
+	LTE  reduce 25
+	'<'  reduce 25
+	'>'  reduce 25
+	';'  reduce 25
+	')'  reduce 25
+
+
+state 72
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp '<' exp .  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	IMPL  shift 47
+	'+'  shift 54
+	'-'  shift 55
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	AND  reduce 27
+	OR  reduce 27
+	EQ  reduce 27
+	NE  reduce 27
+	GTE  reduce 27
+	LTE  reduce 27
+	'<'  reduce 27
+	'>'  reduce 27
+	';'  reduce 27
+	')'  reduce 27
+
+
+state 73
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp '>' exp .  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	IMPL  shift 47
+	'+'  shift 54
+	'-'  shift 55
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	AND  reduce 28
+	OR  reduce 28
+	EQ  reduce 28
+	NE  reduce 28
+	GTE  reduce 28
+	LTE  reduce 28
+	'<'  reduce 28
+	'>'  reduce 28
+	';'  reduce 28
+	')'  reduce 28
+
+
+state 74
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp '+' exp .  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	AND  reduce 32
+	OR  reduce 32
+	IMPL  reduce 32
+	EQ  reduce 32
+	NE  reduce 32
+	GTE  reduce 32
+	LTE  reduce 32
+	'<'  reduce 32
+	'>'  reduce 32
+	'+'  reduce 32
+	'-'  reduce 32
+	';'  reduce 32
+	')'  reduce 32
+
+
+state 75
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp '-' exp .  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	'/'  shift 56
+	'%'  shift 57
+	'*'  shift 58
+	AND  reduce 31
+	OR  reduce 31
+	IMPL  reduce 31
+	EQ  reduce 31
+	NE  reduce 31
+	GTE  reduce 31
+	LTE  reduce 31
+	'<'  reduce 31
+	'>'  reduce 31
+	'+'  reduce 31
+	'-'  reduce 31
+	';'  reduce 31
+	')'  reduce 31
+
+
+state 76
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp '/' exp .  (34)
+	exp : exp . '*' exp  (35)
+
+	.  reduce 34
+
+
+state 77
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp '%' exp .  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+
+	.  reduce 33
+
+
+state 78
+	exp : exp . IMPL exp  (22)
+	exp : exp . OR exp  (23)
+	exp : exp . AND exp  (24)
+	exp : exp . LTE exp  (25)
+	exp : exp . GTE exp  (26)
+	exp : exp . '<' exp  (27)
+	exp : exp . '>' exp  (28)
+	exp : exp . NE exp  (29)
+	exp : exp . EQ exp  (30)
+	exp : exp . '-' exp  (31)
+	exp : exp . '+' exp  (32)
+	exp : exp . '%' exp  (33)
+	exp : exp . '/' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp '*' exp .  (35)
+
+	.  reduce 35
+
+
+state 79
+	typedecl : id '[' integer '.' '.' integer . ']' ';'  (5)
+
+	']'  shift 80
+	.  error
+
+
+state 80
+	typedecl : id '[' integer '.' '.' integer ']' . ';'  (5)
+
+	';'  shift 81
+	.  error
+
+
+state 81
+	typedecl : id '[' integer '.' '.' integer ']' ';' .  (5)
+
+	.  reduce 5
+
+
+35 terminals, 14 nonterminals
+40 grammar rules, 82 states

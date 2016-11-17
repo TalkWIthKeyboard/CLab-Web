@@ -1,0 +1,16 @@
+#define TYPE 257
+#define VARIABLE 258
+#define RULE 259
+#define BOOL 260
+#define MOD 261
+#define DIV 262
+#define AND 263
+#define OR 264
+#define IMPL 265
+#define EQ 266
+#define NE 267
+#define GTE 268
+#define LTE 269
+#define ID 270
+#define NUMBER 271
+#define UMINUS 272

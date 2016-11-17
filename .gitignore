@@ -8,7 +8,6 @@ flask
 node_modules
 .idea/
 files/
-CLab10/
 app.ini
 run.sh
 
